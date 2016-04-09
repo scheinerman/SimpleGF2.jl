@@ -1,6 +1,7 @@
 module SimpleGF2
 
-import Base: show, +, -, *, /, abs, convert, promote_rule, isless, real
+import Base: show, +, -, *, /, abs, convert, promote_rule, isless, real, rand
+
 
 export GF2
 
@@ -29,8 +30,12 @@ isless{T<:Real}(x::T,y::GF2) = isless(x,y.val)
 
 abs(x::GF2) = x
 real(x::GF2) = x.val
+rand(::Type{GF2}) = GF2(rand(Int))
 
 promote_rule(::Type{GF2}, ::Type{Int} ) = GF2
+
+
+
 
 function show(io::IO, x::GF2)
   if x.val == 0x00
