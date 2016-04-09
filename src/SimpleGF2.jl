@@ -1,6 +1,7 @@
 module SimpleGF2
 
-import Base: show, +, -, *, /, abs, convert, promote_rule, isless, real, rand
+import Base: show, +, -, *, /, $, &, |, abs
+import Base: convert, promote_rule, isless, real, rand
 
 
 export GF2
@@ -25,6 +26,11 @@ function /(x::GF2,y::GF2)              # division
   end
   return x
 end
+
+# Bitwise operators
+($)(x::GF2,y::GF2) = GF2(x.val$y.val)   # XOR
+(&)(x::GF2,y::GF2) = GF2(x.val&y.val)   # AND
+(|)(x::GF2,y::GF2) = GF2(x.val|y.val)   # OR
 
 # isless defined giving all relations
 isless(x::GF2,y::GF2) = isless(x.val,y.val)
