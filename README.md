@@ -21,14 +21,21 @@ Matrices can be created with `ones`, `zeros`, and `eye`.
 The `rand` function has been extended to return random
 elements of GF(2). For example:
 ```julia
-julia> [ rand(GF2) for _ in 1:5 ]
-5-element Array{SimpleGF2.GF2,1}:
- GF2(1)
- GF2(0)
- GF2(1)
- GF2(0)
- GF2(0)
+julia> A =rand(GF2,3,5)
+3x5 Array{SimpleGF2.GF2,2}:
+ GF2(0)  GF2(1)  GF2(1)  GF2(0)  GF2(0)
+ GF2(1)  GF2(1)  GF2(1)  GF2(1)  GF2(1)
+ GF2(0)  GF2(0)  GF2(0)  GF2(0)  GF2(1)
+```
+To see this clearly, you can map the values integers:
+```julia
+julia> map(Int,A)
+3x5 Array{Int64,2}:
+ 0  1  1  0  0
+ 1  1  1  1  1
+ 0  0  0  0  1
 ```
 
 Arithmetic with scalars and arrays of GF(2) elements should
-work as expected.
+work as expected. For square matrices, `det` and `inv` work
+as expected.
