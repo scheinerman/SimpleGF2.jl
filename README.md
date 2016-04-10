@@ -36,6 +36,71 @@ julia> map(Int,A)
  0  0  0  0  1
 ```
 
-Arithmetic with scalars and arrays of GF(2) elements should
-work as expected. For square matrices, `det` and `inv` work
-as expected.
+Arithmetic with scalars and arrays of GF(2) elements 
+work as expected. For square matrices, `det` and `inv` 
+are available too:
+```julia
+julia> A = triu(ones(GF2,5,5))
+5x5 Array{SimpleGF2.GF2,2}:
+ GF2(1)  GF2(1)  GF2(1)  GF2(1)  GF2(1)
+ GF2(0)  GF2(1)  GF2(1)  GF2(1)  GF2(1)
+ GF2(0)  GF2(0)  GF2(1)  GF2(1)  GF2(1)
+ GF2(0)  GF2(0)  GF2(0)  GF2(1)  GF2(1)
+ GF2(0)  GF2(0)  GF2(0)  GF2(0)  GF2(1)
+
+julia> inv(A)
+5x5 Array{SimpleGF2.GF2,2}:
+ GF2(1)  GF2(1)  GF2(0)  GF2(0)  GF2(0)
+ GF2(0)  GF2(1)  GF2(1)  GF2(0)  GF2(0)
+ GF2(0)  GF2(0)  GF2(1)  GF2(1)  GF2(0)
+ GF2(0)  GF2(0)  GF2(0)  GF2(1)  GF2(1)
+ GF2(0)  GF2(0)  GF2(0)  GF2(0)  GF2(1)
+
+julia> A = triu(ones(GF2,4,4))
+4x4 Array{SimpleGF2.GF2,2}:
+ GF2(1)  GF2(1)  GF2(1)  GF2(1)
+ GF2(0)  GF2(1)  GF2(1)  GF2(1)
+ GF2(0)  GF2(0)  GF2(1)  GF2(1)
+ GF2(0)  GF2(0)  GF2(0)  GF2(1)
+
+julia> det(A)
+GF2(1)
+
+julia> B = inv(A)
+4x4 Array{SimpleGF2.GF2,2}:
+ GF2(1)  GF2(1)  GF2(0)  GF2(0)
+ GF2(0)  GF2(1)  GF2(1)  GF2(0)
+ GF2(0)  GF2(0)  GF2(1)  GF2(1)
+ GF2(0)  GF2(0)  GF2(0)  GF2(1)
+
+julia> A*B
+4x4 Array{SimpleGF2.GF2,2}:
+ GF2(1)  GF2(0)  GF2(0)  GF2(0)
+ GF2(0)  GF2(1)  GF2(0)  GF2(0)
+ GF2(0)  GF2(0)  GF2(1)  GF2(0)
+ GF2(0)  GF2(0)  GF2(0)  GF2(1)
+ ```
+ 
+ ## Installation
+ 
+ Install with
+ ```
+ Pkg.clone("https://github.com/scheinerman/SimpleGraphRepresentations.jl.git")
+ ```
+ 
+ And then specify `using SimpleGF2` to use the `GF2` numbers.
+ 
+ 
+ ## `GF2` polynomials
+
+The `SimpleGF2` module is compatible with the `Polynomials` package.
+
+```julia
+julia> using Polynomials
+
+julia> x = Poly( [ GF2(0); GF2(1) ] )
+Poly(x)
+
+julia> (x+1)^4
+Poly(GF2(1) + x^4)
+```
