@@ -36,8 +36,8 @@ julia> map(Int,A)
  0  0  0  0  1
 ```
 
-Arithmetic with scalars and arrays of GF(2) elements 
-work as expected. For square matrices, `det` and `inv` 
+Arithmetic with scalars and arrays of GF(2) elements
+work as expected. For square matrices, `det` and `inv`
 are available too:
 ```julia
 julia> A = triu(ones(GF2,5,5))
@@ -80,18 +80,18 @@ julia> A*B
  GF2(0)  GF2(0)  GF2(1)  GF2(0)
  GF2(0)  GF2(0)  GF2(0)  GF2(1)
  ```
- 
+
 Installation
 ------------
- 
+
  Install with
  ```
  Pkg.clone("https://github.com/scheinerman/SimpleGraphRepresentations.jl.git")
  ```
- 
+
  And then specify `using SimpleGF2` to use the `GF2` numbers.
- 
- 
+
+
 `GF2` polynomials
 -----------------
 
