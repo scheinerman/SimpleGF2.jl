@@ -81,7 +81,8 @@ julia> A*B
  GF2(0)  GF2(0)  GF2(0)  GF2(1)
  ```
  
- ## Installation
+Installation
+------------
  
  Install with
  ```
@@ -91,7 +92,8 @@ julia> A*B
  And then specify `using SimpleGF2` to use the `GF2` numbers.
  
  
- ## `GF2` polynomials
+`GF2` polynomials
+-----------------
 
 The `SimpleGF2` module is compatible with the `Polynomials` package.
 
