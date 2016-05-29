@@ -1,6 +1,5 @@
 import Base.inv
-
-
+export swap_rows!, add_row_to_row!
 
 # for debugging purposes only
 function miniprint(A::Array{GF2,2})
@@ -33,7 +32,7 @@ function inv(A::Array{GF2,2})
   const DEBUG::Bool=false
   n,m = size(A)
   if n!= m
-    error("Cannot inverse a matrix that isn't square.")
+    error("Cannot invert a matrix that isn't square.")
   end
   if det(A)==0
     error("Cannot invert a singular matrix.")
