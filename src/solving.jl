@@ -27,20 +27,27 @@ end
 """
 function rref!(A::Array{GF2,2})
   r, c = size(A)
-  for x in 1:c
-    if x > r
-      break
-    end
-    if A[x, x] == 0
-      for y in x:r
-        if A[y, x] == 1
-          swap_rows!(A, y, x)
-          break
+  s = 0
+  for x in 1:r
+    b = false
+    while !b && x + s <= c
+      if A[x, x+s] == 1
+        break
+      elseif A[x, x + s] == 0
+        for y in x:r
+          if A[y, x + s] == 1
+            swap_rows!(A, y, x)
+            b = true
+            break
+          end
         end
+      end
+      if !b
+        s = s + 1
       end
     end
     for m in 1:r
-      if m != x && A[m, x] == 1
+      if x + s <= c && m != x && A[m, x+s] == 1
         add_row_to_row!(A, x, m)
       end
     end
@@ -61,44 +68,19 @@ end
 `solve(A,b)` returns a solution `x` to the linear system
 `A*x == b` or throws an error if no solution can be found.
 """
-
 function solve(A::Array{GF2, 2}, b::Array{GF2, 1})
   r, c = size(A)
   if r != size(b)[1]
     error("Dimensionally incorrect input")
   end
   C = [A b]
-  rref!(C)
-  x = 0
-  for a in 1:r
-   in = true
-   for b in 1:c
-     if C[a, b] != 0
-       in = false
-     end
-   end
-   if in && C[a, c+1] != 0
-     error("Inconsistent system")
-   end
- end
-  ret = zeros(GF2, c)
-  for p in 1:r
-    if C[r, c+1] == 1
-      for l in 1:c
-        if C[r, l] == 1
-          ret[l] = 1
-          break
-        end
-      end
-    end
-  end
-  return ret
+  return solve_augmented(C)
 end
 
 # returns a single solution to the system with matrix C1
 function solve_augmented(C1::Array{GF2, 2})
   r, c = size(C1)
-  D = deepcopy(C1)
+  D = copy(C1)
   rref!(D)
   x = 0
   for a in 1:r
@@ -111,13 +93,13 @@ function solve_augmented(C1::Array{GF2, 2})
    if in && D[a, c] != 0
      error("Inconsistent system")
    end
- end
+  end
   ret = zeros(GF2, c-1)
   for p in 1:r
-    if D[r, c] == 1
-      for l in 1:c-1
-        if D[r, l] == 1
-          ret[l] = 1
+    if D[p, c] == 1
+      for n in 1:c-1
+        if D[p, n] == 1
+          ret[n] = 1
           break
         end
       end
