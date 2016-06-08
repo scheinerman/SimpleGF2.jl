@@ -81,6 +81,15 @@ julia> A*B
  GF2(0)  GF2(0)  GF2(0)  GF2(1)
  ```
 
+
+## Additional functionality
+
+(This documentation to be written later.)
+
+`rref`, `rref!`, `solve`
+
+Thanks to Tara Abrishami.
+
 Installation
 ------------
 
