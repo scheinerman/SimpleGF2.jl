@@ -107,3 +107,93 @@ function solve_augmented(C1::Array{GF2, 2})
   end
   return ret
 end
+
+
+
+import Base.inv
+
+function inv(A::Array{GF2,2})
+  n,m = size(A)
+  if n!= m
+    error("Cannot invert a matrix that isn't square.")
+  end
+  if det(A)==0
+    error("Cannot invert a singular matrix.")
+  end
+
+  AB = [A  eye(GF2,n)]
+  rref!(AB)
+
+  B = AB[:,n+1:end]
+  return B
+end
+
+
+
+
+import Base.LinAlg.nullspace
+
+function nullspace(A::Array{GF2, 2})
+  r, c = size(A)
+  M = rref(A)
+  ret = zeros(GF2, c)
+  s = 0
+  x = 1
+  left = false
+  while x <= c
+    if x > r
+      left = true
+      break
+    end
+    if x + s > c
+      break
+    end
+    if M[x, x+s] == 1
+      x = x + 1
+      continue
+    else
+      p = zeros(GF2, c)
+      p[x + s] = 1
+      for t in 1:r
+        if M[t, x + s] == 1
+          for q in 1:c
+            if M[t, q] == 1
+              p[q] = 1
+              break
+            end
+          end
+        end
+      end
+      s = s + 1
+      ret = hcat(ret, p)
+    end
+  end
+  if left
+    while x + s <= c
+      p = zeros(GF2, c)
+      p[x + s] = 1
+      for t in 1:r
+        if M[t, x + s] == 1
+          for q in 1:c
+            if M[t, q] == 1
+              p[q] = 1
+              break
+            end
+          end
+        end
+      end
+      s = s + 1
+      ret = hcat(ret, p)
+    end
+  end
+  ret = ret[:, 1:size(ret,2) .!= 1]
+  return ret
+end
+
+"""
+`solve_all(A,b)` returns a solution to `A*x==b` together with
+a basis for the nullspace of `A`.
+"""
+function solve_all(A::Array{GF2, 2}, b::Array{GF2, 1})
+  return solve(A, b), nullspace(A)
+end

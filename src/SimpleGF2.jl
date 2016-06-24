@@ -55,6 +55,6 @@ function show(io::IO, x::GF2)
 end
 
 include("solving.jl")
-include("GF2inv.jl")
+# include("GF2inv.jl") -- now moved to "solving"
 
 end # end of module
