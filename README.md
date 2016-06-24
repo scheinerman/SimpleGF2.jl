@@ -86,7 +86,7 @@ julia> A*B
 
 (This documentation to be written later.)
 
-`rref`, `rref!`, `solve`
+`rref`, `rref!`, `solve`, `solve_all`, `nullspace`
 
 Thanks to Tara Abrishami.
 
@@ -115,3 +115,7 @@ Poly(x)
 julia> (x+1)^4
 Poly(GF2(1) + x^4)
 ```
+
+## Acknowledgement
+
+Thanks to Tara Abrishami for her contributions to this module.M
