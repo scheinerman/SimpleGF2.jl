@@ -84,25 +84,124 @@ julia> A*B
 
 ## Additional functionality
 
-(This documentation to be written later.)
+### Rank and nullity
 
-`rref`, `rref!`, `solve`, `solve_all`, `nullspace`
+Given a matrix `A` the dimension of its column space and its
+null space can be computed using `rank(A)` and `nullity(A)`,
+respectively. Further, the null space of `A` is returned by
+`nullspace(A)` as a matrix whose columns are a basis for the
+null space.
+```julia
+julia> A = rand(GF2,3,6)
+3x6 Array{SimpleGF2.GF2,2}:
+ GF2(1)  GF2(0)  GF2(1)  GF2(1)  GF2(1)  GF2(0)
+ GF2(1)  GF2(1)  GF2(1)  GF2(0)  GF2(0)  GF2(0)
+ GF2(0)  GF2(0)  GF2(0)  GF2(0)  GF2(1)  GF2(1)
 
-Thanks to Tara Abrishami.
+julia> rank(A)
+3
 
-Installation
-------------
+julia> nullity(A)
+3
 
- Install with
- ```
- Pkg.clone("https://github.com/scheinerman/SimpleGraphRepresentations.jl.git")
- ```
+julia> A = rand(GF2,4,9)
+4x9 Array{SimpleGF2.GF2,2}:
+ GF2(1)  GF2(1)  GF2(0)  GF2(1)  GF2(0)  GF2(0)  GF2(1)  GF2(0)  GF2(0)
+ GF2(1)  GF2(0)  GF2(1)  GF2(1)  GF2(0)  GF2(0)  GF2(1)  GF2(1)  GF2(0)
+ GF2(1)  GF2(1)  GF2(0)  GF2(0)  GF2(1)  GF2(1)  GF2(1)  GF2(1)  GF2(0)
+ GF2(0)  GF2(0)  GF2(0)  GF2(0)  GF2(1)  GF2(0)  GF2(0)  GF2(1)  GF2(1)
 
- And then specify `using SimpleGF2` to use the `GF2` numbers.
+julia> rank(A)
+4
+
+julia> nullity(A)
+5
+
+julia> B = nullspace(A)
+9x5 Array{SimpleGF2.GF2,2}:
+ GF2(1)  GF2(1)  GF2(1)  GF2(1)  GF2(1)
+ GF2(1)  GF2(0)  GF2(0)  GF2(1)  GF2(0)
+ GF2(1)  GF2(0)  GF2(0)  GF2(0)  GF2(0)
+ GF2(0)  GF2(1)  GF2(0)  GF2(0)  GF2(1)
+ GF2(0)  GF2(0)  GF2(0)  GF2(1)  GF2(1)
+ GF2(0)  GF2(1)  GF2(0)  GF2(0)  GF2(0)
+ GF2(0)  GF2(0)  GF2(1)  GF2(0)  GF2(0)
+ GF2(0)  GF2(0)  GF2(0)  GF2(1)  GF2(0)
+ GF2(0)  GF2(0)  GF2(0)  GF2(0)  GF2(1)
+
+julia> A*B
+4x5 Array{SimpleGF2.GF2,2}:
+ GF2(0)  GF2(0)  GF2(0)  GF2(0)  GF2(0)
+ GF2(0)  GF2(0)  GF2(0)  GF2(0)  GF2(0)
+ GF2(0)  GF2(0)  GF2(0)  GF2(0)  GF2(0)
+ GF2(0)  GF2(0)  GF2(0)  GF2(0)  GF2(0)
+
+julia> nullspace(A')
+4x0 Array{SimpleGF2.GF2,2}
+```
+
+### Equation solving
+
+Given a matrix `A` and a vector `b`, the function `solve(A,b)`
+returns a vector `x` such that `A*x==b`. For example,
+here we show how to solve the pair of equations `r+s==1, s+t==1`:
+```julia
+julia> A = map(GF2,[1 1 0; 0 1 1])
+2x3 Array{SimpleGF2.GF2,2}:
+ GF2(1)  GF2(1)  GF2(0)
+ GF2(0)  GF2(1)  GF2(1)
+
+julia> b = map(GF2,[1,1])
+2-element Array{SimpleGF2.GF2,1}:
+ GF2(1)
+ GF2(1)
+
+julia> x = solve(A,b)
+3-element Array{SimpleGF2.GF2,1}:
+ GF2(0)
+ GF2(1)
+ GF2(0)
+
+julia> A*x==b
+true
+```
+Of course, this is an underdetermined system. The function
+`solve_all` returns a solution to the system `A*x==b` and
+a basis for the null space of `A`:
+```julia
+julia> x,B = solve_all(A,b);
+
+julia> x
+3-element Array{SimpleGF2.GF2,1}:
+ GF2(0)
+ GF2(1)
+ GF2(0)
+
+julia> B
+3x1 Array{SimpleGF2.GF2,2}:
+ GF2(1)
+ GF2(1)
+ GF2(1)
+
+julia> y = x + B[:,1]
+3-element Array{SimpleGF2.GF2,1}:
+ GF2(1)
+ GF2(0)
+ GF2(1)
+
+julia> A*y==b
+true
+```
+
+### Row reduced echelon form
+
+The function `rref(A)` returns the row reduced echelon form
+of the matrix `A`. Similarly, `rref!(A)` overwrites `A` with
+its row reduced echelon form.
 
 
-`GF2` polynomials
------------------
+
+### Polynomials
 
 The `SimpleGF2` module is compatible with the `Polynomials` package.
 
@@ -116,6 +215,18 @@ julia> (x+1)^4
 Poly(GF2(1) + x^4)
 ```
 
+## Installation
+
+ Install with
+ ```
+ Pkg.clone("https://github.com/scheinerman/SimpleGraphRepresentations.jl.git")
+ ```
+
+ And then specify `using SimpleGF2` to use the `GF2` numbers.
+
+
+
 ## Acknowledgement
 
-Thanks to Tara Abrishami for her contributions to this module.M
+Thanks to Tara Abrishami for her contributions to this module including
+`rref`, `rref!`, `solve`, `solve_all`, and `nullspace`.

@@ -198,3 +198,20 @@ a basis for the nullspace of `A`.
 function solve_all(A::Array{GF2, 2}, b::Array{GF2, 1})
   return solve(A, b), nullspace(A)
 end
+
+export nullity
+"""
+`nullity(A)` returns the dimension of the nullspace of `A`.
+"""
+function nullity(A::Array{GF2,2})
+  NS = nullspace(A)
+  (x,n) = size(NS)
+  return n
+end
+
+import Base.rank
+function rank(A::Array{GF2,2})
+  r,c = size(A)
+  n = nullity(A)
+  return c-n
+end
