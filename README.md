@@ -92,18 +92,6 @@ respectively. Further, the null space of `A` is returned by
 `nullspace(A)` as a matrix whose columns are a basis for the
 null space.
 ```julia
-julia> A = rand(GF2,3,6)
-3x6 Array{SimpleGF2.GF2,2}:
- GF2(1)  GF2(0)  GF2(1)  GF2(1)  GF2(1)  GF2(0)
- GF2(1)  GF2(1)  GF2(1)  GF2(0)  GF2(0)  GF2(0)
- GF2(0)  GF2(0)  GF2(0)  GF2(0)  GF2(1)  GF2(1)
-
-julia> rank(A)
-3
-
-julia> nullity(A)
-3
-
 julia> A = rand(GF2,4,9)
 4x9 Array{SimpleGF2.GF2,2}:
  GF2(1)  GF2(1)  GF2(0)  GF2(1)  GF2(0)  GF2(0)  GF2(1)  GF2(0)  GF2(0)
