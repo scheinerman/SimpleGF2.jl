@@ -207,7 +207,7 @@ Poly(GF2(1) + x^4)
 
  Install with
  ```
- Pkg.clone("https://github.com/scheinerman/SimpleGraphRepresentations.jl.git")
+ Pkg.clone("https://github.com/scheinerman/SimpleGF2.jl.git")
  ```
 
  And then specify `using SimpleGF2` to use the `GF2` numbers.
