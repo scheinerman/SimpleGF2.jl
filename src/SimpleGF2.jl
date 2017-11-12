@@ -6,7 +6,7 @@ import Base: convert, promote_rule, isless, real, rand
 
 export GF2
 
-immutable GF2 <: Number
+struct GF2 <: Number
   val::UInt8
   function GF2{T<:Integer}(x::T)
     new(x&1)
