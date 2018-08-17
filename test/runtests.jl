@@ -1,4 +1,5 @@
 using SimpleGF2
+using LinearAlgebra
 using Test
 
 A = ones(GF2,3,3)
