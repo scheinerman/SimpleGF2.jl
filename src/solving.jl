@@ -3,7 +3,7 @@ export rref, rref!, solve, solve_augmented
 """
 `swap_rows!(A,i,j)` swaps rows `i` and `j` in the matrix `A`.
 """
-function swap_rows!{T}(A::Array{T,2}, i::Int, j::Int)
+function swap_rows!(A::Array{T,2}, i::Int, j::Int) where T
   if i==j
     return nothing
   end
@@ -15,7 +15,7 @@ end
 """
 `add_row_to_row!(A,i,j)` adds row `i` to row `j` in the matrix `A`.
 """
-function add_row_to_row!{T<:Number}(A::Array{T,2},i::Int,j::Int)
+function add_row_to_row!(A::Array{T,2},i::Int,j::Int) where T<:Number
   A[j,:] += A[i,:]
   return nothing
 end
@@ -120,8 +120,9 @@ function inv(A::Array{GF2,2})
   if det(A)==0
     error("Cannot invert a singular matrix.")
   end
+  In = Matrix{GF2}(I,n,n)
 
-  AB = [A  eye(GF2,n)]
+  AB = [A  In]
   rref!(AB)
 
   B = AB[:,n+1:end]
@@ -131,9 +132,8 @@ end
 
 
 
-import Base.LinAlg.nullspace
 
-function nullspace(A::Array{GF2, 2})
+function LinearAlgebra.nullspace(A::Array{GF2, 2})
   r, c = size(A)
   M = rref(A)
   ret = zeros(GF2, c)
@@ -209,8 +209,7 @@ function nullity(A::Array{GF2,2})
   return n
 end
 
-import Base.rank
-function rank(A::Array{GF2,2})
+function LinearAlgebra.rank(A::Array{GF2,2})
   r,c = size(A)
   n = nullity(A)
   return c-n

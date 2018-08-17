@@ -1,5 +1,13 @@
 # SimpleGF2
 
+
+[![Build Status](https://travis-ci.org/scheinerman/SimpleGF2.jl.svg?branch=master)](https://travis-ci.org/scheinerman/SimpleGF2.jl)
+
+[![Coverage Status](https://coveralls.io/repos/scheinerman/SimpleGF2.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/scheinerman/SimpleGF2.jl?branch=master)
+
+[![codecov.io](http://codecov.io/github/scheinerman/SimpleGF2.jl/coverage.svg?branch=master)](http://codecov.io/github/scheinerman/SimpleGF2.jl?branch=master)
+
+
 This a basic implementation of arithmetic in GF(2). Values in
 GF(2) can be created like this:
 ```julia
