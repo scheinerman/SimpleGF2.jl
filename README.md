@@ -1,7 +1,6 @@
-# SimpleGF2
+# SimpleGF2 is deprecated
 
-## **NOTICE**
 
-The functionality of this module can be completely replaced by the use of the
-types and functions in `Mods` (or `MiniMods`) and `LinearAlgebraX` modules.
+> The functionality of this module has been completely replaced by the use of the
+types and functions in `Mods` (or `MiniMods`) and `LinearAlgebraX` modules. 
 
