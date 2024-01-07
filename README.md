@@ -3,5 +3,5 @@
 ## **NOTICE**
 
 The functionality of this module can be completely replaced by the use of the
-types and functions in `Mods` and `LinearAlgebraX` modules.
+types and functions in `Mods` (or `MiniMods`) and `LinearAlgebraX` modules.
 
